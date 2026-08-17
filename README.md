@@ -16,6 +16,10 @@ HostInspection 是一个基于 Bash 的 Linux 主机巡检脚本。它会自动�
 - 提供打印优化与移动端响应式布局
 - 对缺失命令和非 root 环境进行兼容处理
 
+## 截图示例
+生成html报告
+![图片说明](./images/Snipaste_01.jpg)
+
 ## 项目结构
 
 ```text
@@ -442,11 +446,6 @@ https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css
 - 运维交接与资产信息整理
 - 定期生成服务器健康报告
 - 小规模主机环境的人工巡检
-
-
-## 截图示例
-生成html报告
-![图片说明](./images/Snipaste_01.jpg)
 
 
 
