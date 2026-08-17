@@ -444,4 +444,9 @@ https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css
 - 小规模主机环境的人工巡检
 
 
+## 截图示例
+生成html报告
+![图片说明](./images/Snipaste_01.jpg)
+
+
 
