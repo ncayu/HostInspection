@@ -1,0 +1,900 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" data-theme="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Windows 巡检报告 - 2026-08-18 10:55</title>
+  <style>
+:root {
+  --bg: #F4F6FB; --bg2: #FFFFFF; --bg3: #F9FAFC;
+  --ink: #1F2937; --ink2: #4B5563; --muted: #9CA3AF;
+  --rule: #E5E7EB; --rule2: #F3F4F6;
+  --accent: #6366F1; --accent2: #8B5CF6; --accent3: #EC4899;
+  --success: #10B981; --warn: #F59E0B; --danger: #EF4444; --info: #3B82F6;
+  --grad-accent: linear-gradient(135deg,#6366F1 0%,#8B5CF6 50%,#EC4899 100%);
+  --grad-card: linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.05));
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04),0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(99,102,241,0.08),0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 32px rgba(99,102,241,0.12),0 4px 8px rgba(0,0,0,0.06);
+  --radius: 14px;
+}
+[data-theme="dark"] {
+  --bg: #0B1020; --bg2: #151B2E; --bg3: #1E2640;
+  --ink: #E5E7EB; --ink2: #CBD5E1; --muted: #94A3B8;
+  --rule: #1F2A44; --rule2: #18213A;
+  --accent: #818CF8; --accent2: #A78BFA; --accent3: #F472B6;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4),0 1px 2px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.4),0 2px 4px rgba(0,0,0,0.3);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.5),0 4px 8px rgba(0,0,0,0.4);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg); color: var(--ink);
+  font-size: 14px; line-height: 1.6;
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(99,102,241,0.08) 0%, transparent 35%),
+    radial-gradient(circle at 85% 90%, rgba(236,72,153,0.06) 0%, transparent 35%);
+  min-height: 100vh;
+}
+.wrap { max-width: 1380px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: start; }
+.wrap > .main { min-width: 0; }
+.nav {
+  position: sticky; top: 24px;
+  background: linear-gradient(180deg, #ffffff 0%, #F5F3FF 100%);
+  border: 1px solid var(--rule);
+  border-radius: 16px; padding: 18px 14px;
+  max-height: calc(100vh - 48px); overflow-y: auto;
+  box-shadow: 0 4px 16px rgba(99,102,241,0.08);
+}
+.nav-header {
+  padding: 4px 8px 14px; border-bottom: 1px solid var(--rule);
+  margin-bottom: 12px;
+}
+.nav-header-title {
+  font-size: 0.95rem; font-weight: 700; color: var(--ink);
+  display: flex; align-items: center; gap: 8px; margin-bottom: 2px;
+}
+.nav-header-title svg { width: 18px; height: 18px; color: var(--accent); }
+.nav-header-sub {
+  font-size: 0.72rem; color: var(--muted); letter-spacing: 0.3px;
+  padding-left: 26px;
+}
+.nav ul { list-style: none; padding: 0; margin: 0; }
+.nav li { margin: 2px 0; }
+.nav li a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 10px;
+  font-size: 0.85rem; color: var(--ink2);
+  text-decoration: none; transition: all 0.15s;
+  position: relative;
+}
+.nav li a:hover {
+  background: rgba(99,102,241,0.08); color: var(--ink);
+}
+.nav li a.active {
+  background: linear-gradient(135deg, #6366F1, #8B5CF6);
+  color: #fff; font-weight: 600;
+  box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+}
+.nav li a .nav-num {
+  width: 20px; height: 20px; border-radius: 6px;
+  background: var(--bg3); color: var(--muted);
+  font-size: 0.7rem; font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-variant-numeric: tabular-nums;
+  transition: all 0.15s;
+}
+.nav li a.active .nav-num {
+  background: rgba(255,255,255,0.25); color: #fff;
+}
+.nav li a:hover .nav-num { background: var(--accent); color: #fff; }
+.nav li a .nav-icon {
+  width: 16px; height: 16px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  opacity: 0.65; color: currentColor;
+}
+.nav li a .nav-icon svg { width: 16px; height: 16px; display: block; }
+.nav li a.active .nav-icon { opacity: 1; }
+.nav-footer {
+  margin-top: 14px; padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  text-align: center; font-size: 0.7rem; color: var(--muted);
+}
+.nav-footer-badge {
+  display: inline-block; padding: 3px 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6366F1, #8B5CF6);
+  color: #fff; font-weight: 600; font-size: 0.68rem;
+  letter-spacing: 0.3px;
+}
+.sec { scroll-margin-top: 16px; }
+.icon { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
+.icon svg { width: 100%; height: 100%; display: block; }
+.icon-18 { width: 18px; height: 18px; }
+.icon-20 { width: 20px; height: 20px; }
+.icon-24 { width: 24px; height: 24px; }
+.icon-28 { width: 28px; height: 28px; }
+.hdr {
+  background: var(--bg2); border-radius: 18px; padding: 28px 32px;
+  margin-bottom: 24px; box-shadow: var(--shadow-md);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px; position: relative; overflow: hidden;
+  border: 1px solid var(--rule);
+}
+.hdr::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--grad-accent);
+}
+.hdr-title { display: flex; align-items: center; gap: 14px; }
+.hdr-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--grad-accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+.hdr-icon svg { width: 28px; height: 28px; color: #fff; }
+.hdr h1 {
+  font-size: 1.6rem; margin: 0; font-weight: 700;
+  background: var(--grad-accent); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hdr-sub { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+.hdr-meta { display: flex; gap: 12px; flex-wrap: wrap; }
+.meta-pill {
+  background: var(--bg3); border: 1px solid var(--rule); border-radius: 999px;
+  padding: 6px 14px; font-size: 0.8rem; color: var(--ink2);
+  display: flex; align-items: center; gap: 6px;
+}
+.meta-pill .icon-14 { width: 14px; height: 14px; color: var(--accent); }
+.icon-14 { width: 14px; height: 14px; }
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi {
+  background: var(--bg2); border-radius: var(--radius); padding: 20px;
+  border: 1px solid var(--rule); box-shadow: var(--shadow-sm);
+  position: relative; overflow: hidden;
+}
+.kpi::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--accent);
+}
+.kpi.ok::before { background: var(--success); }
+.kpi.warn::before { background: var(--warn); }
+.kpi.crit::before { background: var(--danger); }
+.kpi-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.kpi-label .icon { color: var(--accent); }
+.kpi-value { font-size: 1.8rem; font-weight: 700; color: var(--ink); line-height: 1.1; }
+.kpi-unit { font-size: 0.9rem; color: var(--muted); margin-left: 4px; font-weight: 400; }
+.kpi-bar { height: 6px; background: var(--rule2); border-radius: 3px; margin-top: 12px; overflow: hidden; }
+.kpi-bar-fill { height: 100%; background: var(--grad-accent); border-radius: 3px; transition: width 1s ease; }
+.kpi.ok .kpi-bar-fill { background: var(--success); }
+.kpi.warn .kpi-bar-fill { background: var(--warn); }
+.kpi.crit .kpi-bar-fill { background: var(--danger); }
+.sec {
+  background: var(--bg2); border-radius: var(--radius); padding: 22px 24px;
+  margin-bottom: 18px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--rule); position: relative; overflow: hidden;
+}
+.sec-title {
+  font-size: 1.1rem; font-weight: 700; margin: 0 0 16px;
+  display: flex; align-items: center; gap: 10px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--rule2);
+  line-height: 1.3;
+}
+.sec-title .icon-24 {
+  width: 32px; height: 32px; border-radius: 10px;
+  background: var(--grad-card); color: var(--accent);
+  padding: 6px; box-sizing: border-box; flex-shrink: 0;
+}
+.sec-title .badge {
+  margin-left: auto; font-size: 0.72rem; padding: 4px 10px; border-radius: 999px;
+  background: var(--bg3); color: var(--muted); font-weight: 500;
+}
+.sec h3 {
+  margin: 10px 0 8px; font-size: 0.92rem; font-weight: 600;
+  color: var(--ink2); display: flex; align-items: center; gap: 6px;
+}
+.sec h3:first-child { margin-top: 0; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.cards-2 { grid-template-columns: repeat(2, 1fr); }
+.cards-3 { grid-template-columns: repeat(3, 1fr); }
+.cards-4 { grid-template-columns: repeat(4, 1fr); }
+.card {
+  background: var(--bg3); border: 1px solid var(--rule);
+  border-radius: 12px; padding: 12px 14px;
+  position: relative; overflow: hidden;
+  min-height: 64px; display: flex; flex-direction: column; justify-content: center;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--accent); opacity: 0.6;
+}
+.card-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; line-height: 1.3; }
+.card-label .icon { color: var(--accent); }
+.icon-12 { width: 12px; height: 12px; }
+.card-value { font-size: 0.95rem; font-weight: 600; color: var(--ink); word-break: break-word; line-height: 1.4; }
+.card-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+.tbl { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 4px; font-size: 0.85rem; table-layout: fixed; }
+.tbl th {
+  background: var(--bg3); padding: 7px 10px; text-align: left;
+  font-weight: 600; color: var(--ink2); border-bottom: 2px solid var(--rule);
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.tbl td { padding: 5px 10px; border-bottom: 1px solid var(--rule2); color: var(--ink); vertical-align: middle; line-height: 1.4; }
+.tbl tr:hover td { background: var(--bg3); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl td.tbl-num, .tbl th.tbl-num { text-align: right; font-variant-numeric: tabular-nums; }
+.tbl td.tbl-center, .tbl th.tbl-center { text-align: center; }
+.tbl td.tbl-mono { font-family: 'JetBrains Mono','Cascadia Code',Consolas,monospace; font-size: 0.8rem; color: var(--accent); }
+.tbl td .code { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: inline-block; }
+
+/* Collapsible details/summary */
+details.collapse {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--bg3);
+  margin-top: 10px;
+  overflow: hidden;
+}
+details.collapse > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 10px 14px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+  background: var(--bg3);
+  transition: background 0.15s;
+}
+details.collapse > summary::-webkit-details-marker { display: none; }
+details.collapse > summary::before {
+  content: '';
+  display: inline-block;
+  width: 0; height: 0;
+  border-left: 5px solid var(--ink2);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  margin-right: 4px;
+  transition: transform 0.2s;
+}
+details.collapse[open] > summary::before {
+  transform: rotate(90deg);
+}
+details.collapse > summary:hover { background: var(--rule2); }
+details.collapse > summary .count-pill {
+  margin-left: auto;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  color: var(--muted);
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+details.collapse > .collapse-body {
+  background: var(--bg2);
+  padding: 10px;
+  border-top: 1px solid var(--rule);
+}
+.code {
+  background: var(--bg3); padding: 2px 6px; border-radius: 4px;
+  font-family: 'JetBrains Mono','Cascadia Code',Consolas,monospace;
+  font-size: 0.8rem; color: var(--accent);
+}
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 999px; font-size: 0.72rem;
+  font-weight: 600; white-space: nowrap;
+}
+.badge .icon-12 { width: 11px; height: 11px; }
+.badge-ok   { background: rgba(16,185,129,0.12); color: var(--success); }
+.badge-warn { background: rgba(245,158,11,0.12); color: var(--warn); }
+.badge-err  { background: rgba(239,68,68,0.12); color: var(--danger); }
+.badge-info { background: rgba(59,130,246,0.12); color: var(--info); }
+.badge-mute { background: var(--bg3); color: var(--muted); }
+.gauges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 18px; }
+.gauge-card {
+  background: var(--bg3); border: 1px solid var(--rule);
+  border-radius: 12px; padding: 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.gauge-svg { width: 140px; height: 140px; }
+.gauge-val { font-size: 1.5rem; font-weight: 700; fill: var(--ink); font-family: -apple-system, "Segoe UI", sans-serif; }
+.gauge-pct { font-size: 0.8rem; fill: var(--muted); font-family: -apple-system, "Segoe UI", sans-serif; }
+.gauge-name { font-size: 0.82rem; color: var(--ink2); font-weight: 600; }
+.gauge-card.gauge-ok .gauge-name { color: var(--success); }
+.gauge-card.gauge-warn .gauge-name { color: var(--warn); }
+.gauge-card.gauge-crit .gauge-name { color: var(--danger); }
+.charts-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+.chart-card {
+  background: var(--bg3); border: 1px solid var(--rule);
+  border-radius: 12px; padding: 16px;
+}
+.chart-title {
+  font-size: 0.9rem; font-weight: 600; color: var(--ink2);
+  margin-bottom: 12px; text-align: center;
+}
+.donut-svg { width: 180px; height: 180px; display: block; margin: 0 auto; }
+.donut-total { font-size: 1.5rem; font-weight: 700; fill: var(--ink); font-family: -apple-system, "Segoe UI", sans-serif; }
+.donut-sub { font-size: 0.7rem; fill: var(--muted); font-family: -apple-system, "Segoe UI", sans-serif; }
+.legend { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+.legend-item { font-size: 0.78rem; color: var(--ink2); display: flex; align-items: center; gap: 6px; }
+.legend-item strong { color: var(--ink); margin-left: auto; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.hbar-row { display: grid; grid-template-columns: 100px 1fr 70px; gap: 8px; align-items: center; margin-bottom: 8px; }
+.hbar-label { font-size: 0.78rem; color: var(--ink2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hbar-track { height: 16px; background: var(--bg2); border-radius: 4px; overflow: hidden; border: 1px solid var(--rule); }
+.hbar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; min-width: 4px; }
+.hbar-val { font-size: 0.78rem; color: var(--ink); font-weight: 600; text-align: right; }
+.vbar-chart { display: flex; align-items: flex-end; justify-content: space-around; gap: 8px; height: 180px; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.vbar-item { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; max-width: 60px; }
+.vbar-value { font-size: 0.75rem; color: var(--ink); font-weight: 600; }
+.vbar-bar { width: 100%; border-radius: 4px 4px 0 0; transition: height 0.8s ease; min-height: 4px; }
+.vbar-label { font-size: 0.68rem; color: var(--muted); text-align: center; word-break: break-all; line-height: 1.2; max-height: 36px; overflow: hidden; }
+.rank {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 8px; font-size: 0.74rem;
+  font-weight: 700; background: var(--bg3); color: var(--ink2);
+}
+.rank-1 { background: linear-gradient(135deg,#FBBF24,#F59E0B); color: #fff; }
+.rank-2 { background: linear-gradient(135deg,#A78BFA,#8B5CF6); color: #fff; }
+.rank-3 { background: linear-gradient(135deg,#60A5FA,#3B82F6); color: #fff; }
+.proc-bar { display: flex; align-items: center; gap: 6px; }
+.proc-bar-track { flex: 1; min-width: 50px; max-width: 100px; height: 6px; background: var(--rule2); border-radius: 3px; overflow: hidden; }
+.proc-bar-fill { height: 100%; background: var(--grad-accent); border-radius: 3px; transition: width 0.8s; }
+.proc-bar-val { font-size: 0.74rem; font-weight: 600; min-width: 36px; text-align: right; color: var(--ink2); }
+.evt-list { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; padding-right: 4px; }
+.evt {
+  display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px;
+  background: var(--bg3); border-radius: 10px; border-left: 3px solid var(--danger);
+}
+.evt .ts {
+  background: var(--bg2); padding: 2px 8px; border-radius: 6px;
+  font-family: monospace; font-size: 0.75rem; color: var(--ink2);
+  border: 1px solid var(--rule); white-space: nowrap;
+}
+.evt .src { font-weight: 600; color: var(--ink); font-size: 0.85rem; }
+.evt .msg { font-size: 0.78rem; color: var(--muted); margin-top: 2px; word-break: break-word; }
+.theme-btn {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--grad-accent); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); z-index: 100;
+}
+.theme-btn svg { width: 20px; height: 20px; color: #fff; }
+@media (max-width: 900px) {
+  .kpi-row, .gauges { grid-template-columns: repeat(2, 1fr); }
+  .cards-3, .cards-4 { grid-template-columns: repeat(2, 1fr); }
+  .charts-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .kpi-row, .gauges { grid-template-columns: 1fr; }
+  .cards-2, .cards-3, .cards-4 { grid-template-columns: 1fr; }
+  .hdr { padding: 18px; }
+  .wrap { padding: 14px; grid-template-columns: 1fr; gap: 16px; }
+  .nav { position: static; max-height: 240px; }
+}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" id="sideNav">
+    <div class="nav-header">
+      <div class='nav-header-title'>
+      <div class='nav-header-sub'>14 个章节 · 点击跳转</div>
+    </div>
+    <ul>
+      <li><a href="#sec_overview"><span class='nav-num'>1</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>系统概览</a></li>
+      <li><a href="#sec_hardware"><span class='nav-num'>2</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg></span>硬件资产</a></li>
+      <li><a href="#sec_cpu"><span class='nav-num'>3</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg></span>CPU 信息</a></li>
+      <li><a href="#sec_memory"><span class='nav-num'>4</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="7" y1="10" x2="7" y2="14"/><line x1="11" y1="10" x2="11" y2="14"/><line x1="15" y1="10" x2="15" y2="14"/></svg></span>内存信息</a></li>
+      <li><a href="#sec_disks"><span class='nav-num'>5</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/></svg></span>磁盘分区</a></li>
+      <li><a href="#sec_disk-health"><span class='nav-num'>6</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span>物理磁盘健康</a></li>
+      <li><a href="#sec_network"><span class='nav-num'>7</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="6"/><rect x="16" y="16" width="6" height="6"/><rect x="2" y="16" width="6" height="6"/><path d="M5 16v-3a1 1 0 011-1h12a1 1 0 011 1v3M12 12V8"/></svg></span>网络</a></li>
+      <li><a href="#sec_processes"><span class='nav-num'>8</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>进程监控</a></li>
+      <li><a href="#sec_services"><span class='nav-num'>9</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span>关键服务</a></li>
+      <li><a href="#sec_security"><span class='nav-num'>10</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>安全审计</a></li>
+      <li><a href="#sec_events"><span class='nav-num'>11</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span>事件日志摘要</a></li>
+      <li><a href="#sec_tasks"><span class='nav-num'>12</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>计划任务</a></li>
+      <li><a href="#sec_startup"><span class='nav-num'>13</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>启动项</a></li>
+      <li><a href="#sec_summary"><span class='nav-num'>14</span><span class='icon nav-icon'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>巡检总结</a></li>
+    </ul>
+    <div class="nav-footer">
+      <span class="nav-footer-badge">14 模块</span>
+      <div style="margin-top:8px;font-size:0.7rem;">实时 · 离线 · 自包含</div>
+    </div>
+  </nav>
+  <div class="main">
+<div class="hdr">
+  <div class="hdr-title">
+    <div class="hdr-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4v8H3V5.5zM3 12.5h7.5v8L3 19V12.5zM11.5 4L21 2.5v9.5h-9.5V4zM11.5 12.5H21V22l-9.5-1.5v-8z"/></svg></div>
+    <div>
+      <h1>Windows 系统巡检报告</h1>
+      <div class='hdr-sub'>Windows System Inspection Report · DESKTOP-64IKA85</div>
+    </div>
+  </div>
+  <div class="hdr-meta">
+    <div class='meta-pill'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>2026-08-18 10:55:42</div>
+    <div class='meta-pill'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg></span>AMD Ryzen</div>
+    <div class='meta-pill'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>Windows 11 专业版</div>
+    <div class='meta-pill'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></span>(UTC+08:00) 北京，重庆，香港特别行政区，乌鲁木齐</div>
+  </div>
+</div>
+<div class="kpi-row">
+  <div class='kpi ok'>
+    <div class='kpi-label'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg></span>CPU 使用率</div>
+    <div class='kpi-value'>32<span class='kpi-unit'>%</span></div>
+    <div class='kpi-bar'><div class='kpi-bar-fill' style='width:32%'></div></div>
+  </div>
+  <div class='kpi ok'>
+    <div class='kpi-label'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="7" y1="10" x2="7" y2="14"/><line x1="11" y1="10" x2="11" y2="14"/><line x1="15" y1="10" x2="15" y2="14"/></svg></span>内存使用率</div>
+    <div class='kpi-value'>60.4<span class='kpi-unit'>%</span></div>
+    <div class='kpi-bar'><div class='kpi-bar-fill' style='width:60.4%'></div></div>
+  </div>
+  <div class='kpi ok'>
+    <div class='kpi-label'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/></svg></span>磁盘最大占用</div>
+    <div class='kpi-value'>77<span class='kpi-unit'>%</span></div>
+    <div class='kpi-bar'><div class='kpi-bar-fill' style='width:77%'></div></div>
+  </div>
+  <div class='kpi ok'>
+    <div class='kpi-label'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>系统运行时长</div>
+    <div class='kpi-value'>9<span class='kpi-unit'>天</span></div>
+    <div class='card-sub'>启动于 2026-08-09 12:57</div>
+  </div>
+</div>
+<div class="sec" id="sec_overview">
+  <h2 class="sec-title"><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>系统概览<span class="badge">DESKTOP-64IKA85</span></h2>
+  <div class="gauges">
+<div class='gauge-card gauge-ok'><svg viewBox='0 0 160 160' class='gauge-svg'><circle cx='80' cy='80' r='60' fill='none' stroke='var(--rule2)' stroke-width='12' stroke-dasharray='376.991118430775' transform='rotate(135 80 80)'/><circle cx='80' cy='80' r='60' fill='none' stroke='var(--accent)' stroke-width='12' stroke-linecap='round' stroke-dasharray='90.48 286.513250007389' transform='rotate(135 80 80)'/><text x='80' y='75' text-anchor='middle' class='gauge-val'>32</text><text x='80' y='98' text-anchor='middle' class='gauge-pct'>%</text></svg><div class='gauge-name'>CPU 使用率</div></div>
+<div class='gauge-card gauge-ok'><svg viewBox='0 0 160 160' class='gauge-svg'><circle cx='80' cy='80' r='60' fill='none' stroke='var(--rule2)' stroke-width='12' stroke-dasharray='376.991118430775' transform='rotate(135 80 80)'/><circle cx='80' cy='80' r='60' fill='none' stroke='var(--accent2)' stroke-width='12' stroke-linecap='round' stroke-dasharray='169.65 207.345115136926' transform='rotate(135 80 80)'/><text x='80' y='75' text-anchor='middle' class='gauge-val'>60</text><text x='80' y='98' text-anchor='middle' class='gauge-pct'>%</text></svg><div class='gauge-name'>内存使用率</div></div>
+<div class='gauge-card gauge-warn'><svg viewBox='0 0 160 160' class='gauge-svg'><circle cx='80' cy='80' r='60' fill='none' stroke='var(--rule2)' stroke-width='12' stroke-dasharray='376.991118430775' transform='rotate(135 80 80)'/><circle cx='80' cy='80' r='60' fill='none' stroke='var(--warn)' stroke-width='12' stroke-linecap='round' stroke-dasharray='217.71 159.278747537002' transform='rotate(135 80 80)'/><text x='80' y='75' text-anchor='middle' class='gauge-val'>77</text><text x='80' y='98' text-anchor='middle' class='gauge-pct'>%</text></svg><div class='gauge-name'>磁盘最大占用</div></div>
+<div class='gauge-card'><svg viewBox='0 0 160 160' class='gauge-svg' style='opacity:0.85'><circle cx='80' cy='80' r='62' fill='none' stroke='var(--success)' stroke-width='2' stroke-dasharray='3 4' opacity='0.4'/><circle cx='80' cy='80' r='50' fill='none' stroke='var(--success)' stroke-width='2' opacity='0.3'/><text x='80' y='78' text-anchor='middle' class='gauge-val' style='font-size:1.9rem;fill:var(--success);'>744</text><text x='80' y='105' text-anchor='middle' class='gauge-pct'>个 TCP</text></svg><div class='gauge-name'>端口连接数</div></div>
+  </div>
+  <div class="cards cards-4">
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>主机名</div><div class='card-value'>DESKTOP-64IKA85</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4v8H3V5.5zM3 12.5h7.5v8L3 19V12.5zM11.5 4L21 2.5v9.5h-9.5V4zM11.5 12.5H21V22l-9.5-1.5v-8z"/></svg></span>操作系统</div><div class='card-value'>Microsoft Windows 11 专业版</div><div class='card-sub'>版本 10.0.26200 · Build 26200</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>系统架构</div><div class='card-value'>AMD64</div><div class='card-sub'>455 个进程运行中</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 11-12.73 0M12 2v10"/></svg></span>启动时间</div><div class='card-value'>08-09 12:57</div><div class='card-sub'>已运行 9d 21h 58m</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></span>制造商</div><div class='card-value'>LENOVO</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>设备型号</div><div class='card-value'>82RE</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>序列号</div><div class='card-value'>PF3RL5PM</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></span>域名/工作组</div><div class='card-value'>WORKGROUP</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></span>时区</div><div class='card-value'>(UTC+08:00) 北京，重庆，香港特别行政区，乌鲁木齐</div><div class='card-sub'>UTC08:00</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg></span>系统还原</div><div class='card-value'>Enabled</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>UAC 用户账户控制</div><div class='card-value'><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>已启用</span></div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>电源计划</div><div class='card-value'>平衡</div></div>
+  </div>
+</div>
+<div class="sec" id="sec_hardware">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg></span>硬件资产</h2>
+  <div class="cards cards-2">
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg></span>CPU 处理器</div><div class='card-value'>AMD Ryzen 7 6800H with Radeon Graphics         </div><div class='card-sub'>AuthenticAMD · 8 核 / 16 线程 · 3.2 GHz</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="7" y1="10" x2="7" y2="14"/><line x1="11" y1="10" x2="11" y2="14"/><line x1="15" y1="10" x2="15" y2="14"/></svg></span>总内存</div><div class='card-value'>63.2 GB</div><div class='card-sub'>已用 38.2 GB / 剩余 25 GB</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg></span>显卡 GPU</div><div class='card-value'>NVIDIA GeForce RTX 3050 Ti Laptop GPU <span style='color:var(--muted);font-size:0.75rem;'>+ AMD Radeon(TM) Graphics</span></div><div class='card-sub'>显存 4 GB</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></span>显示器</div><div class='card-value'>x</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></span>主板</div><div class='card-value'>LENOVO LNVNB161216</div><div class='card-sub'>vSDK0T76479 WIN</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg></span>BIOS</div><div class='card-value'>JUCN43WW</div><div class='card-sub'>LENOVO · 发布 2022-07-14</div></div>
+  </div>
+  <h3 style="margin-top:12px;font-size:0.95rem;color:var(--ink2);"><span class="icon icon-14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg></span> GPU 详情</h3>
+  <table class='tbl'><colgroup><col style='width:28%'><col style='width:10%'><col style='width:22%'><col style='width:12%'><col style='width:18%'><col style='width:10%'></colgroup><thead><tr><th>名称</th><th>类型</th><th>驱动版本</th><th>显存</th><th>当前分辨率</th><th>刷新率</th></tr></thead><tbody>
+    <tr><td>NVIDIA GeForce RTX 3050 Ti Laptop GPU</td><td><span class='badge badge-ok'>独显</span></td><td><span class='code'>31.0.15.4692</span></td><td>4 GB</td><td>2560×1440</td><td>59 Hz</td></tr>
+    <tr><td>AMD Radeon(TM) Graphics</td><td><span class='badge badge-info'>核显</span></td><td><span class='code'>31.0.21024.2004</span></td><td>共享系统内存</td><td>N/A</td><td>N/A</td></tr>
+  </tbody></table>
+</div>
+<div class="sec" id="sec_cpu">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg></span>CPU 信息</h2>
+  <div class="cards cards-3">
+    <div class='card'><div class='card-label'>型号</div><div class='card-value'>AMD Ryzen 7 6800H with Radeon Graphics         </div></div>
+    <div class='card'><div class='card-label'>厂商</div><div class='card-value'>AuthenticAMD</div></div>
+    <div class='card'><div class='card-label'>物理核心</div><div class='card-value'>8</div></div>
+    <div class='card'><div class='card-label'>逻辑处理器</div><div class='card-value'>16</div></div>
+    <div class='card'><div class='card-label'>主频</div><div class='card-value'>3.2 GHz</div></div>
+    <div class='card'><div class='card-label'>L2 缓存</div><div class='card-value'>4 MB</div></div>
+    <div class='card'><div class='card-label'>L3 缓存</div><div class='card-value'>16 MB</div></div>
+    <div class='card'><div class='card-label'>虚拟化</div><div class='card-value'>True</div></div>
+  </div>
+</div>
+<div class="sec" id="sec_memory">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="7" y1="10" x2="7" y2="14"/><line x1="11" y1="10" x2="11" y2="14"/><line x1="15" y1="10" x2="15" y2="14"/></svg></span>内存信息</h2>
+  <div class="cards cards-2">
+    <div class='card'>
+      <div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="7" y1="10" x2="7" y2="14"/><line x1="11" y1="10" x2="11" y2="14"/><line x1="15" y1="10" x2="15" y2="14"/></svg></span>物理内存</div>
+      <div style='display:flex;align-items:center;gap:16px;margin-top:8px;'>
+<div class='gauge-card gauge-ok'><svg viewBox='0 0 160 160' class='gauge-svg'><circle cx='80' cy='80' r='60' fill='none' stroke='var(--rule2)' stroke-width='12' stroke-dasharray='376.991118430775' transform='rotate(135 80 80)'/><circle cx='80' cy='80' r='60' fill='none' stroke='var(--accent)' stroke-width='12' stroke-linecap='round' stroke-dasharray='169.65 207.345115136926' transform='rotate(135 80 80)'/><text x='80' y='75' text-anchor='middle' class='gauge-val'>60</text><text x='80' y='98' text-anchor='middle' class='gauge-pct'>%</text></svg><div class='gauge-name'>内存使用率</div></div>
+        <div style='flex:1;'>
+          <div style='font-size:1.4rem;font-weight:700;'>38.2 <span style='font-size:0.85rem;color:var(--muted);'>/ 63.2 GB</span></div>
+          <div class='card-sub'>剩余 25 GB</div>
+        </div>
+      </div>
+    </div>
+    <div class='card'>
+      <div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span>虚拟内存 (页面文件)</div>
+      <div style='display:flex;align-items:center;gap:16px;margin-top:8px;'>
+<div class='gauge-card gauge-ok'><svg viewBox='0 0 160 160' class='gauge-svg'><circle cx='80' cy='80' r='60' fill='none' stroke='var(--rule2)' stroke-width='12' stroke-dasharray='376.991118430775' transform='rotate(135 80 80)'/><circle cx='80' cy='80' r='60' fill='none' stroke='var(--accent2)' stroke-width='12' stroke-linecap='round' stroke-dasharray='0 376.991118430775' transform='rotate(135 80 80)'/><text x='80' y='75' text-anchor='middle' class='gauge-val'>0</text><text x='80' y='98' text-anchor='middle' class='gauge-pct'>%</text></svg><div class='gauge-name'>页面文件</div></div>
+        <div style='flex:1;'>
+          <div style='font-size:1.4rem;font-weight:700;'>0.1 <span style='font-size:0.85rem;color:var(--muted);'>/ 64 GB</span></div>
+          <div class='card-sub'>剩余 63.9 GB</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sec" id="sec_disks">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/></svg></span>磁盘分区</h2>
+  <table class='tbl'><colgroup><col style='width:10%'><col style='width:11%'><col style='width:11%'><col style='width:11%'><col style='width:22%'><col style='width:12%'><col style='width:13%'><col style='width:10%'></colgroup><thead><tr><th>驱动器</th><th>总大小</th><th>已用</th><th>可用</th><th>使用率</th><th>文件系统</th><th>卷标</th><th>状态</th></tr></thead><tbody>
+    <tr>
+      <td><strong>C:</strong></td>
+      <td>474.7 GB</td>
+      <td>364.6 GB</td>
+      <td>110.1 GB</td>
+      <td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:77%;background:var(--success);'></div></div><span class='proc-bar-val'>77%</span></div></td>
+      <td>NTFS</td>
+      <td></td>
+      <td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>正常</span></td>
+    </tr>
+    <tr>
+      <td><strong>D:</strong></td>
+      <td>500 GB</td>
+      <td>204.5 GB</td>
+      <td>295.5 GB</td>
+      <td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:41%;background:var(--success);'></div></div><span class='proc-bar-val'>41%</span></div></td>
+      <td>NTFS</td>
+      <td>新加卷</td>
+      <td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>正常</span></td>
+    </tr>
+    <tr>
+      <td><strong>E:</strong></td>
+      <td>2726 GB</td>
+      <td>2036.5 GB</td>
+      <td>689.5 GB</td>
+      <td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:75%;background:var(--success);'></div></div><span class='proc-bar-val'>75%</span></div></td>
+      <td>NTFS</td>
+      <td>新加卷</td>
+      <td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>正常</span></td>
+    </tr>
+    <tr>
+      <td><strong>F:</strong></td>
+      <td>200 GB</td>
+      <td>38 GB</td>
+      <td>162 GB</td>
+      <td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:19%;background:var(--success);'></div></div><span class='proc-bar-val'>19%</span></div></td>
+      <td>NTFS</td>
+      <td>桌面文件</td>
+      <td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>正常</span></td>
+    </tr>
+    <tr>
+      <td><strong>G:</strong></td>
+      <td>300 GB</td>
+      <td>225.4 GB</td>
+      <td>74.6 GB</td>
+      <td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:75%;background:var(--success);'></div></div><span class='proc-bar-val'>75%</span></div></td>
+      <td>NTFS</td>
+      <td>新加卷</td>
+      <td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>正常</span></td>
+    </tr>
+  </tbody></table>
+</div>
+<div class="sec" id="sec_disk-health">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span>物理磁盘健康</h2>
+  <div class="cards cards-2">
+    <div class='card'>
+      <div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/></svg></span>SAMSUNG MZVL2512HCJQ-00BL2</div>
+      <div class='card-value'>SSD · NVMe · 477 GB</div>
+      <div style='margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;'>
+        <span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Healthy</span>
+        <span class='badge badge-mute'>运行: OK</span>
+      </div>
+    </div>
+    <div class='card'>
+      <div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/></svg></span>Samsung SSD 990 PRO 4TB</div>
+      <div class='card-value'>SSD · NVMe · 3726 GB</div>
+      <div style='margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;'>
+        <span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Healthy</span>
+        <span class='badge badge-mute'>运行: OK</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sec" id="sec_network">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="6"/><rect x="16" y="16" width="6" height="6"/><rect x="2" y="16" width="6" height="6"/><path d="M5 16v-3a1 1 0 011-1h12a1 1 0 011 1v3M12 12V8"/></svg></span>网络</h2>
+  <div class="charts-2">
+<div class='chart-card'><div class='chart-title'>TCP 连接状态分布</div><svg viewBox='0 0 200 200' class='donut-svg'><circle cx='100' cy='100' r='70' fill='none' stroke='var(--success)' stroke-width='28' stroke-dasharray='160.8 279.022971502571' stroke-dashoffset='-0' transform='rotate(-90 100 100)'/><circle cx='100' cy='100' r='70' fill='none' stroke='var(--accent)' stroke-width='28' stroke-dasharray='49.66 390.162971502571' stroke-dashoffset='-160.8' transform='rotate(-90 100 100)'/><circle cx='100' cy='100' r='70' fill='none' stroke='var(--warn)' stroke-width='28' stroke-dasharray='192.72 247.102971502571' stroke-dashoffset='-210.45' transform='rotate(-90 100 100)'/><circle cx='100' cy='100' r='70' fill='none' stroke='var(--danger)' stroke-width='28' stroke-dasharray='36.65 403.172971502571' stroke-dashoffset='-403.17' transform='rotate(-90 100 100)'/><text x='100' y='100' text-anchor='middle' dominant-baseline='central' class='donut-total'>744</text><text x='100' y='122' text-anchor='middle' class='donut-sub'>总数</text></svg><div class='legend'><div class='legend-item'><span class='legend-dot' style='background:var(--success);'></span>Established <strong>272</strong></div><div class='legend-item'><span class='legend-dot' style='background:var(--accent);'></span>Listen <strong>84</strong></div><div class='legend-item'><span class='legend-dot' style='background:var(--warn);'></span>TimeWait <strong>326</strong></div><div class='legend-item'><span class='legend-dot' style='background:var(--danger);'></span>CloseWait <strong>62</strong></div></div></div>
+  <div class='chart-card'><div class='chart-title'>网络接口流量 (MB)</div><div style='display:flex;align-items:center;justify-content:center;height:200px;color:var(--muted);font-size:0.85rem;'>暂无流量数据</div></div>
+  </div>
+  <div class="cards cards-4" style="margin-bottom:16px;">
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></span>已建立连接</div><div class='card-value' style='color:var(--success);'>272</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6M15 2v6M5 8h14v3a7 7 0 01-14 0V8zM12 18v4"/></svg></span>监听中</div><div class='card-value' style='color:var(--accent);'>84</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>TIME-WAIT</div><div class='card-value' style='color:var(--warn);'>326</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>CLOSE-WAIT</div><div class='card-value' style='color:var(--danger);'>62</div></div>
+  </div>
+  <h3 style="margin-top:8px;font-size:0.95rem;color:var(--ink2);"><span class="icon icon-14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6M15 2v6M5 8h14v3a7 7 0 01-14 0V8zM12 18v4"/></svg></span> 网络接口</h3>
+  <table class='tbl'><colgroup><col style='width:24%'><col style='width:22%'><col style='width:14%'><col style='width:20%'><col style='width:20%'></colgroup><thead><tr><th>接口</th><th>IP 地址</th><th>链路速度</th><th>已发送</th><th>已接收</th></tr></thead><tbody>
+    <tr><td><strong>WLAN</strong><div class='card-sub'>RZ616 Wi-Fi 6E 160MHz</div></td><td><span class='code'>192.168.0.11</span></td><td>N/A</td><td>0 MB</td><td>0 MB</td></tr>
+    <tr><td><strong>VMware Network Adapter VMnet8</strong><div class='card-sub'>VMware Virtual Ethernet Adapter for VMnet8</div></td><td><span class='code'>192.168.19.1</span></td><td>N/A</td><td>0 MB</td><td>0 MB</td></tr>
+    <tr><td><strong>VMware Network Adapter VMnet1</strong><div class='card-sub'>VMware Virtual Ethernet Adapter for VMnet1</div></td><td><span class='code'>192.168.6.1</span></td><td>N/A</td><td>0 MB</td><td>0 MB</td></tr>
+  </tbody></table>
+  <h3 style="margin-top:12px;font-size:0.95rem;color:var(--ink2);"><span class="icon icon-14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V8a2 2 0 012-2h12a2 2 0 012 2v12M14 12h.01"/></svg></span> 监听端口</h3>
+  <details class='collapse'>
+    <summary><span>Top 30 条监听端口</span><span class='count-pill'>点击展开 / 收起</span></summary>
+    <div class='collapse-body'>
+      <table class='tbl'><colgroup><col style='width:10%'><col style='width:28%'><col style='width:14%'><col style='width:32%'><col style='width:16%'></colgroup><thead><tr><th>协议</th><th>监听地址</th><th>端口</th><th>进程</th><th>PID</th></tr></thead><tbody>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>60530</strong></td><td>SaseTunnel</td><td><span class='code'>19168</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>49688</strong></td><td>spoolsv</td><td><span class='code'>5392</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>49670</strong></td><td>svchost</td><td><span class='code'>5088</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>49667</strong></td><td>svchost</td><td><span class='code'>4100</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>49666</strong></td><td>svchost</td><td><span class='code'>2892</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>49665</strong></td><td>wininit</td><td><span class='code'>1664</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>49664</strong></td><td>lsass</td><td><span class='code'>1796</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::1</span></td><td><strong>31443</strong></td><td>corplink-service</td><td><span class='code'>7380</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::1</span></td><td><strong>31080</strong></td><td>corplink-service</td><td><span class='code'>7380</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>8888</strong></td><td>MSMdevices</td><td><span class='code'>47876</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>7897</strong></td><td>verge-mihomo</td><td><span class='code'>33164</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>7680</strong></td><td>svchost</td><td><span class='code'>62892</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>6160</strong></td><td>wpscloudsvr</td><td><span class='code'>54012</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>5357</strong></td><td>System</td><td><span class='code'>4</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>3389</strong></td><td>svchost</td><td><span class='code'>2284</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>1272</strong></td><td>services</td><td><span class='code'>1744</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>1246</strong></td><td>svchost</td><td><span class='code'>5780</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>445</strong></td><td>System</td><td><span class='code'>4</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>::</span></td><td><strong>135</strong></td><td>svchost</td><td><span class='code'>944</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>62910</strong></td><td>DingTalk</td><td><span class='code'>51748</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>60532</strong></td><td>SaseTunnel</td><td><span class='code'>19168</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>58630</strong></td><td>aTrustAgent</td><td><span class='code'>7292</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>57630</strong></td><td>aTrustXtunnel</td><td><span class='code'>25048</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>57038</strong></td><td>GameViewerServer</td><td><span class='code'>32476</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>56630</strong></td><td>aTrustAgent</td><td><span class='code'>38220</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>55744</strong></td><td>GameViewerServer</td><td><span class='code'>32476</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>55721</strong></td><td>TencentDocs</td><td><span class='code'>35336</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>54677</strong></td><td>aTrustXtunnel</td><td><span class='code'>25048</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>54631</strong></td><td>aTrustAgent</td><td><span class='code'>38220</span></td></tr>
+        <tr><td><span class='badge' style='background:rgba(99,102,241,0.12);color:var(--accent);'>TCP</span></td><td><span class='code'>127.0.0.1</span></td><td><strong>54630</strong></td><td>aTrustAgent</td><td><span class='code'>38220</span></td></tr>
+      </tbody></table>
+    </div>
+  </details>
+</div>
+<div class="sec" id="sec_processes">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>进程监控<span class='badge'>455 个进程</span></h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    <div>
+      <h3 style='font-size:0.95rem;color:var(--ink2);margin:0 0 6px;'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="7" y1="10" x2="7" y2="14"/><line x1="11" y1="10" x2="11" y2="14"/><line x1="15" y1="10" x2="15" y2="14"/></svg></span> 内存占用 Top 10</h3>
+      <table class='tbl'><colgroup><col style='width:8%'><col style='width:30%'><col style='width:12%'><col style='width:14%'><col style='width:36%'></colgroup><thead><tr><th>#</th><th>进程</th><th>PID</th><th>内存</th><th>占比</th></tr></thead><tbody>
+      <tr><td><span class='rank rank-1'>1</span></td><td>vmware-vmx</td><td><span class='code'>41068</span></td><td><strong>16537.5</strong> MB</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:100%'></div></div><span class='proc-bar-val'>100%</span></div></td></tr>
+      <tr><td><span class='rank rank-2'>2</span></td><td>Memory Compression</td><td><span class='code'>5676</span></td><td><strong>2317.8</strong> MB</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:14%'></div></div><span class='proc-bar-val'>14%</span></div></td></tr>
+      <tr><td><span class='rank rank-3'>3</span></td><td>explorer</td><td><span class='code'>22020</span></td><td><strong>420.1</strong> MB</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:3%'></div></div><span class='proc-bar-val'>3%</span></div></td></tr>
+      <tr><td><span class='rank '>4</span></td><td>QQ</td><td><span class='code'>35160</span></td><td><strong>375.7</strong> MB</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:2%'></div></div><span class='proc-bar-val'>2%</span></div></td></tr>
+      <tr><td><span class='rank '>5</span></td><td>Weixin</td><td><span class='code'>7968</span></td><td><strong>358.2</strong> MB</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:2%'></div></div><span class='proc-bar-val'>2%</span></div></td></tr>
+      <tr><td><span class='rank '>6</span></td><td>TRAE SOLO CN</td><td><span class='code'>47212</span></td><td><strong>351.8</strong> MB</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:2%'></div></div><span class='proc-bar-val'>2%</span></div></td></tr>
+      <tr><td><span class='rank '>7</span></td><td>ChatGPT</td><td><span class='code'>30516</span></td><td><strong>307.4</strong> MB</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:2%'></div></div><span class='proc-bar-val'>2%</span></div></td></tr>
+      <tr><td><span class='rank '>8</span></td><td>ChatGPT</td><td><span class='code'>9560</span></td><td><strong>292.2</strong> MB</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:2%'></div></div><span class='proc-bar-val'>2%</span></div></td></tr>
+      <tr><td><span class='rank '>9</span></td><td>AlibabaProtect</td><td><span class='code'>6692</span></td><td><strong>268.1</strong> MB</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:2%'></div></div><span class='proc-bar-val'>2%</span></div></td></tr>
+      <tr><td><span class='rank '>10</span></td><td>chrome</td><td><span class='code'>36400</span></td><td><strong>266.1</strong> MB</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:2%'></div></div><span class='proc-bar-val'>2%</span></div></td></tr>
+      </tbody></table>
+    </div>
+    <div>
+      <h3 style='font-size:0.95rem;color:var(--ink2);margin:0 0 6px;'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> CPU 占用 Top 10</h3>
+      <table class='tbl'><colgroup><col style='width:8%'><col style='width:30%'><col style='width:12%'><col style='width:14%'><col style='width:36%'></colgroup><thead><tr><th>#</th><th>进程</th><th>PID</th><th>CPU时间</th><th>占比</th></tr></thead><tbody>
+      <tr><td><span class='rank rank-1'>1</span></td><td>ToDesk</td><td><span class='code'>8244</span></td><td><strong>87087.7</strong> s</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:100%'></div></div><span class='proc-bar-val'>100%</span></div></td></tr>
+      <tr><td><span class='rank rank-2'>2</span></td><td>System</td><td><span class='code'>4</span></td><td><strong>55325.1</strong> s</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:64%'></div></div><span class='proc-bar-val'>64%</span></div></td></tr>
+      <tr><td><span class='rank rank-3'>3</span></td><td>svchost</td><td><span class='code'>13724</span></td><td><strong>43697</strong> s</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:50%'></div></div><span class='proc-bar-val'>50%</span></div></td></tr>
+      <tr><td><span class='rank '>4</span></td><td>SASE</td><td><span class='code'>7192</span></td><td><strong>34983.9</strong> s</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:40%'></div></div><span class='proc-bar-val'>40%</span></div></td></tr>
+      <tr><td><span class='rank '>5</span></td><td>svchost</td><td><span class='code'>2664</span></td><td><strong>26699.3</strong> s</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:31%'></div></div><span class='proc-bar-val'>31%</span></div></td></tr>
+      <tr><td><span class='rank '>6</span></td><td>svchost</td><td><span class='code'>5188</span></td><td><strong>20327</strong> s</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:23%'></div></div><span class='proc-bar-val'>23%</span></div></td></tr>
+      <tr><td><span class='rank '>7</span></td><td>QQPCRTP</td><td><span class='code'>4220</span></td><td><strong>13044.1</strong> s</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:15%'></div></div><span class='proc-bar-val'>15%</span></div></td></tr>
+      <tr><td><span class='rank '>8</span></td><td>vmware-vmx</td><td><span class='code'>41068</span></td><td><strong>9074.8</strong> s</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:10%'></div></div><span class='proc-bar-val'>10%</span></div></td></tr>
+      <tr><td><span class='rank '>9</span></td><td>AliYunDunMonitor</td><td><span class='code'>23292</span></td><td><strong>7302</strong> s</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:8%'></div></div><span class='proc-bar-val'>8%</span></div></td></tr>
+      <tr><td><span class='rank '>10</span></td><td>SaseTunnel</td><td><span class='code'>19168</span></td><td><strong>5496.6</strong> s</td><td><div class='proc-bar'><div class='proc-bar-track'><div class='proc-bar-fill' style='width:6%'></div></div><span class='proc-bar-val'>6%</span></div></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+<div class="sec" id="sec_services">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span>关键服务<span class='badge'>24 个 · 19 运行</span></h2>
+  <div class="cards cards-4" style="margin-bottom:16px;">
+    <div class='card'><div class='card-label'>运行中</div><div class='card-value' style='color:var(--success);'>19</div></div>
+    <div class='card'><div class='card-label'>已停止</div><div class='card-value' style='color:var(--warn);'>5</div></div>
+    <div class='card'><div class='card-label'>总数</div><div class='card-value'>24</div></div>
+    <div class='card'><div class='card-label'>自动启动</div><div class='card-value'>17</div></div>
+  </div>
+  <table class='tbl'><colgroup><col style='width:14%'><col style='width:42%'><col style='width:22%'><col style='width:22%'></colgroup><thead><tr><th>服务名</th><th>显示名</th><th>状态</th><th>启动类型</th></tr></thead><tbody>
+    <tr><td><span class='code'>WinRM</span></td><td>Windows Remote Management (WS-Management)</td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>已停止</span></td><td><span class='badge badge-info'>Manual</span></td></tr>
+    <tr><td><span class='code'>Spooler</span></td><td>Print Spooler</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>wuauserv</span></td><td>Windows 更新</td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>已停止</span></td><td><span class='badge badge-info'>Manual</span></td></tr>
+    <tr><td><span class='code'>BITS</span></td><td>Background Intelligent Transfer Service</td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>已停止</span></td><td><span class='badge badge-info'>Manual</span></td></tr>
+    <tr><td><span class='code'>TermService</span></td><td>Remote Desktop Services</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-info'>Manual</span></td></tr>
+    <tr><td><span class='code'>LanmanServer</span></td><td>Server</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>LanmanWorkstation</span></td><td>Workstation</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>MpsSvc</span></td><td>Windows Defender Firewall</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>WinDefend</span></td><td>Microsoft Defender 防病毒服务</td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>已停止</span></td><td><span class='badge badge-info'>Manual</span></td></tr>
+    <tr><td><span class='code'>Audiosrv</span></td><td>Windows Audio</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>Dnscache</span></td><td>DNS Client</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>Dhcp</span></td><td>DHCP Client</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>EventLog</span></td><td>Windows Event Log</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>PlugPlay</span></td><td>Plug and Play</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-info'>Manual</span></td></tr>
+    <tr><td><span class='code'>Schedule</span></td><td>Task Scheduler</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>Winmgmt</span></td><td>Windows Management Instrumentation</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>RpcSs</span></td><td>Remote Procedure Call (RPC)</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>SamSs</span></td><td>Security Accounts Manager</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>WSearch</span></td><td>Windows Search</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>ProfSvc</span></td><td>User Profile Service</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>Themes</span></td><td>Themes</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>BFE</span></td><td>Base Filtering Engine</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>iphlpsvc</span></td><td>IP Helper</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>运行中</span></td><td><span class='badge badge-ok'>Automatic</span></td></tr>
+    <tr><td><span class='code'>wercplsupport</span></td><td>Problem Reports Control Panel Support</td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>已停止</span></td><td><span class='badge badge-info'>Manual</span></td></tr>
+  </tbody></table>
+</div>
+<div class="sec" id="sec_security">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>安全审计</h2>
+  <h3 style="font-size:0.95rem;color:var(--ink2);margin:0 0 6px;"><span class="icon icon-14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> 防火墙</h3>
+  <div class="cards cards-3" style="margin-bottom:18px;">
+    <div class='card'>
+      <div class='card-label'>Domain 配置文件</div>
+      <div class='card-value'><span class='badge badge-err'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>已禁用</span></div>
+      <div class='card-sub'>入站: NotConfigured · 出站: NotConfigured</div>
+    </div>
+    <div class='card'>
+      <div class='card-label'>Private 配置文件</div>
+      <div class='card-value'><span class='badge badge-err'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>已禁用</span></div>
+      <div class='card-sub'>入站: NotConfigured · 出站: NotConfigured</div>
+    </div>
+    <div class='card'>
+      <div class='card-label'>Public 配置文件</div>
+      <div class='card-value'><span class='badge badge-err'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>已禁用</span></div>
+      <div class='card-sub'>入站: NotConfigured · 出站: NotConfigured</div>
+    </div>
+  </div>
+  <h3 style="font-size:0.95rem;color:var(--ink2);margin:0 0 6px;"><span class="icon icon-14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> Windows Defender</h3>
+  <div class="cards cards-4" style="margin-bottom:18px;">
+    <div class='card'><div class='card-label'>实时保护</div><div class='card-value'><span class='badge badge-err'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>已禁用</span></div></div>
+    <div class='card'><div class='card-label'>病毒库版本</div><div class='card-value'><span class='code'></span></div><div class='card-sub'></div></div>
+    <div class='card'><div class='card-label'>上次扫描</div><div class='card-value' style='font-size:0.85rem;'></div></div>
+    <div class='card'><div class='card-label'>高危威胁</div><div class='card-value' style='color:var(--danger);'></div></div>
+  </div>
+  <h3 style="font-size:0.95rem;color:var(--ink2);margin:0 0 6px;"><span class="icon icon-14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span> BitLocker 加密</h3>
+  <table class='tbl' style='margin-bottom:18px;'><colgroup><col style='width:22%'><col style='width:30%'><col style='width:22%'><col style='width:26%'></colgroup><thead><tr><th>卷</th><th>保护状态</th><th>加密进度</th><th>加密方法</th></tr></thead><tbody>
+    <tr><td><strong>E:</strong></td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>未加密</span></td><td>0%</td><td>None</td></tr>
+    <tr><td><strong>F:</strong></td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>未加密</span></td><td>0%</td><td>None</td></tr>
+    <tr><td><strong>D:</strong></td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>未加密</span></td><td>0%</td><td>None</td></tr>
+    <tr><td><strong>G:</strong></td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>未加密</span></td><td>0%</td><td>None</td></tr>
+    <tr><td><strong>C:</strong></td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>未加密</span></td><td>0%</td><td>None</td></tr>
+  </tbody></table>
+  <h3 style="font-size:0.95rem;color:var(--ink2);margin:0 0 6px;"><span class="icon icon-14"></span> 系统更新</h3>
+  <div class="cards cards-3" style="margin-bottom:18px;">
+    <div class='card'><div class='card-label'>最新补丁</div><div class='card-value'><span class='code'>KB5079473</span></div><div class='card-sub'>2026-03-14 · Security Update</div></div>
+    <div class='card'><div class='card-label'>已安装补丁</div><div class='card-value'>4</div></div>
+    <div class='card'><div class='card-label'>更新状态</div><div class='card-value'><span class='badge badge-warn'>滞后 157 天</span></div></div>
+  </div>
+  <h3 style="font-size:0.95rem;color:var(--ink2);margin:0 0 6px;"><span class="icon icon-14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></span> 本地用户</h3>
+  <table class='tbl'><colgroup><col style='width:24%'><col style='width:30%'><col style='width:18%'><col style='width:28%'></colgroup><thead><tr><th>用户名</th><th>全名</th><th>状态</th><th>上次登录</th></tr></thead><tbody>
+    <tr><td><strong>Administrator</strong></td><td></td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>禁用</span></td><td>从未</td></tr>
+    <tr><td><strong>CodexSandboxOffline</strong></td><td>CodexSandboxOffline</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>启用</span></td><td>2026-08-16</td></tr>
+    <tr><td><strong>CodexSandboxOnline</strong></td><td>CodexSandboxOnline</td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>启用</span></td><td>从未</td></tr>
+    <tr><td><strong>DefaultAccount</strong></td><td></td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>禁用</span></td><td>从未</td></tr>
+    <tr><td><strong>Guest</strong></td><td></td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>禁用</span></td><td>从未</td></tr>
+    <tr><td><strong>Pengfei</strong></td><td></td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>启用</span></td><td>2026-08-18</td></tr>
+    <tr><td><strong>WDAGUtilityAccount</strong></td><td></td><td><span class='badge badge-warn'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>禁用</span></td><td>从未</td></tr>
+  </tbody></table>
+  <h3 style="font-size:0.95rem;color:var(--ink2);margin:18px 0 10px;"><span class="icon icon-14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> 当前登录</h3>
+  <table class="tbl"><thead><tr><th>用户</th><th>会话</th><th>状态</th><th>登录时间</th></tr></thead><tbody>
+    <tr><td><strong>pengfei</strong></td><td><span class='code'>console</span></td><td><span class='badge badge-ok'><span class='icon icon-12'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>15</span></td><td>Active 16:19</td></tr>
+  </tbody></table>
+</div>
+<div class="sec" id="sec_events">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span>事件日志摘要</h2>
+  <div class="charts-2">
+<div class='chart-card'><div class='chart-title'>系统错误事件来源 Top 8</div><div class='hbar-row'><div class='hbar-label'>Schannel</div><div class='hbar-track'><div class='hbar-fill' style='width:100%;background:var(--danger);'></div></div><div class='hbar-val'>50 次</div></div></div>
+<div class='chart-card'><div class='chart-title'>事件日志分类分布</div><svg viewBox='0 0 200 200' class='donut-svg'><circle cx='100' cy='100' r='70' fill='none' stroke='var(--danger)' stroke-width='28' stroke-dasharray='197.92 241.902971502571' stroke-dashoffset='-0' transform='rotate(-90 100 100)'/><circle cx='100' cy='100' r='70' fill='none' stroke='var(--warn)' stroke-width='28' stroke-dasharray='21.99 417.832971502571' stroke-dashoffset='-197.92' transform='rotate(-90 100 100)'/><circle cx='100' cy='100' r='70' fill='none' stroke='var(--accent)' stroke-width='28' stroke-dasharray='96.76 343.062971502571' stroke-dashoffset='-219.91' transform='rotate(-90 100 100)'/><circle cx='100' cy='100' r='70' fill='none' stroke='var(--info)' stroke-width='28' stroke-dasharray='123.15 316.672971502571' stroke-dashoffset='-316.67' transform='rotate(-90 100 100)'/><text x='100' y='100' text-anchor='middle' dominant-baseline='central' class='donut-total'>400</text><text x='100' y='122' text-anchor='middle' class='donut-sub'>总数</text></svg><div class='legend'><div class='legend-item'><span class='legend-dot' style='background:var(--danger);'></span>系统错误 <strong>180</strong></div><div class='legend-item'><span class='legend-dot' style='background:var(--warn);'></span>系统警告 <strong>20</strong></div><div class='legend-item'><span class='legend-dot' style='background:var(--accent);'></span>应用错误 <strong>88</strong></div><div class='legend-item'><span class='legend-dot' style='background:var(--info);'></span>应用警告 <strong>112</strong></div></div></div>
+  </div>
+  <div class="cards cards-4" style="margin-bottom:16px;">
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg></span>系统日志错误</div><div class='card-value'><span class='badge badge-err'>180</span></div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>系统日志警告</div><div class='card-value'><span class='badge badge-ok'>20</span></div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg></span>应用日志错误</div><div class='card-value'><span class='badge badge-err'>88</span></div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>应用日志警告</div><div class='card-value'><span class='badge badge-ok'>112</span></div></div>
+  </div>
+  <h3 style='font-size:0.95rem;color:var(--ink2);margin:0 0 6px;'><span class='icon icon-14'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> 最近系统错误事件</h3>
+  <div class="evt-list">
+    <div class='evt'><span class='ts'>08-18 10:31</span><div style='flex:1;'><div class='src'>Schannel</div><div class='msg'>创建 TLS 客户端 凭据时出现严重错误。内部错误状态为 10013。 </div></div></div>
+    <div class='evt'><span class='ts'>08-18 10:31</span><div style='flex:1;'><div class='src'>Schannel</div><div class='msg'>创建 TLS 客户端 凭据时出现严重错误。内部错误状态为 10013。 </div></div></div>
+    <div class='evt'><span class='ts'>08-18 10:28</span><div style='flex:1;'><div class='src'>Schannel</div><div class='msg'>创建 TLS 客户端 凭据时出现严重错误。内部错误状态为 10013。 </div></div></div>
+    <div class='evt'><span class='ts'>08-18 10:28</span><div style='flex:1;'><div class='src'>Schannel</div><div class='msg'>创建 TLS 客户端 凭据时出现严重错误。内部错误状态为 10013。 </div></div></div>
+    <div class='evt'><span class='ts'>08-18 10:28</span><div style='flex:1;'><div class='src'>Schannel</div><div class='msg'>创建 TLS 客户端 凭据时出现严重错误。内部错误状态为 10013。 </div></div></div>
+    <div class='evt'><span class='ts'>08-18 10:28</span><div style='flex:1;'><div class='src'>Schannel</div><div class='msg'>创建 TLS 客户端 凭据时出现严重错误。内部错误状态为 10013。 </div></div></div>
+    <div class='evt'><span class='ts'>08-18 10:24</span><div style='flex:1;'><div class='src'>Schannel</div><div class='msg'>创建 TLS 客户端 凭据时出现严重错误。内部错误状态为 10013。 </div></div></div>
+    <div class='evt'><span class='ts'>08-18 10:24</span><div style='flex:1;'><div class='src'>Schannel</div><div class='msg'>创建 TLS 客户端 凭据时出现严重错误。内部错误状态为 10013。 </div></div></div>
+    <div class='evt'><span class='ts'>08-18 10:19</span><div style='flex:1;'><div class='src'>Schannel</div><div class='msg'>创建 TLS 客户端 凭据时出现严重错误。内部错误状态为 10013。 </div></div></div>
+    <div class='evt'><span class='ts'>08-18 10:19</span><div style='flex:1;'><div class='src'>Schannel</div><div class='msg'>创建 TLS 客户端 凭据时出现严重错误。内部错误状态为 10013。 </div></div></div>
+  </div>
+</div>
+<div class="sec" id="sec_tasks">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>计划任务<span class='badge'>22 个非微软任务</span></h2>
+  <div class="cards cards-4">
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span>总数</div><div class='card-value'>22</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>正在运行</div><div class='card-value' style='color:var(--success);'>2</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>准备就绪</div><div class='card-value' style='color:var(--info);'>20</div></div>
+    <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>已禁用</div><div class='card-value' style='color:var(--muted);'>0</div></div>
+  </div>
+</div>
+<div class="sec" id="sec_startup">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>启动项<span class='badge'>14 个</span></h2>
+  <table class='tbl'><colgroup><col style='width:18%'><col style='width:42%'><col style='width:24%'><col style='width:16%'></colgroup><thead><tr><th>名称</th><th>命令</th><th>位置</th><th>用户</th></tr></thead><tbody>
+    <tr><td><strong>OneDriveSetup</strong></td><td><span class='code' style='font-size:0.75rem;'>C:\Windows\System32\OneDriveSetup.exe /thfirstsetup</span></td><td>HKU\S-1-5-19\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>NT AUTHORITY\LOCAL SERVICE</td></tr>
+    <tr><td><strong>OneDriveSetup</strong></td><td><span class='code' style='font-size:0.75rem;'>C:\Windows\System32\OneDriveSetup.exe /thfirstsetup</span></td><td>HKU\S-1-5-20\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>NT AUTHORITY\NETWORK SERVICE</td></tr>
+    <tr><td><strong>Snipaste</strong></td><td><span class='code' style='font-size:0.75rem;'>Snipaste.lnk</span></td><td>Startup</td><td>DESKTOP-64IKA85\Pengfei</td></tr>
+    <tr><td><strong>OneDrive</strong></td><td><span class='code' style='font-size:0.75rem;'>"C:\Users\Pengfei\AppData\Local\Microsoft\OneDrive\OneDrive....</span></td><td>HKU\S-1-5-21-2840198993-4127248914-64211085-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>DESKTOP-64IKA85\Pengfei</td></tr>
+    <tr><td><strong>BingWallpaperDaemon</strong></td><td><span class='code' style='font-size:0.75rem;'>C:\Users\Pengfei\AppData\Local\Temp\bwpa9e4ccb7-5c48-43e5-a8...</span></td><td>HKU\S-1-5-21-2840198993-4127248914-64211085-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>DESKTOP-64IKA85\Pengfei</td></tr>
+    <tr><td><strong>Feishu</strong></td><td><span class='code' style='font-size:0.75rem;'>"D:\ProgramFiles2026\Feishu\Feishu.exe"</span></td><td>HKU\S-1-5-21-2840198993-4127248914-64211085-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>DESKTOP-64IKA85\Pengfei</td></tr>
+    <tr><td><strong>ApifoxAppAgent</strong></td><td><span class='code' style='font-size:0.75rem;'>C:\Users\Pengfei\AppData\Roaming\apifox\ApifoxAppAgent.exe </span></td><td>HKU\S-1-5-21-2840198993-4127248914-64211085-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>DESKTOP-64IKA85\Pengfei</td></tr>
+    <tr><td><strong>BingSvc</strong></td><td><span class='code' style='font-size:0.75rem;'>C:\Users\Pengfei\AppData\Local\Microsoft\BingSvc\BingSvc.exe</span></td><td>HKU\S-1-5-21-2840198993-4127248914-64211085-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>DESKTOP-64IKA85\Pengfei</td></tr>
+    <tr><td><strong>MicrosoftEdgeAutoLaunch_A423026E87D6F3E4999826FCE9A1E335</strong></td><td><span class='code' style='font-size:0.75rem;'>"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.ex...</span></td><td>HKU\S-1-5-21-2840198993-4127248914-64211085-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>DESKTOP-64IKA85\Pengfei</td></tr>
+    <tr><td><strong>GoogleChromeAutoLaunch_3A626DA21A2B04AA83BBE3B97E904224</strong></td><td><span class='code' style='font-size:0.75rem;'>"C:\Program Files\Google\Chrome\Application\chrome.exe" --no...</span></td><td>HKU\S-1-5-21-2840198993-4127248914-64211085-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>DESKTOP-64IKA85\Pengfei</td></tr>
+    <tr><td><strong>Figma Agent</strong></td><td><span class='code' style='font-size:0.75rem;'>"C:\Users\Pengfei\AppData\Local\FigmaAgent\figma_agent.exe"</span></td><td>HKU\S-1-5-21-2840198993-4127248914-64211085-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>DESKTOP-64IKA85\Pengfei</td></tr>
+    <tr><td><strong>DingTalk</strong></td><td><span class='code' style='font-size:0.75rem;'>D:\Program Files (x86)\DingDing\DingtalkLauncher.exe /autoru...</span></td><td>HKU\S-1-5-21-2840198993-4127248914-64211085-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>DESKTOP-64IKA85\Pengfei</td></tr>
+    <tr><td><strong>SecurityHealth</strong></td><td><span class='code' style='font-size:0.75rem;'>%windir%\system32\SecurityHealthSystray.exe</span></td><td>HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Public</td></tr>
+    <tr><td><strong>RtkAudUService</strong></td><td><span class='code' style='font-size:0.75rem;'>"C:\WINDOWS\System32\DriverStore\FileRepository\realtekservi...</span></td><td>HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Public</td></tr>
+  </tbody></table>
+</div>
+<div class="sec" id="sec_summary" style="background:var(--grad-card);">
+  <h2 class='sec-title'><span class="icon icon-24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>巡检总结</h2>
+  <div style="display:flex;align-items:center;gap:30px;flex-wrap:wrap;">
+    <div style='flex-shrink:0;'>
+<div class='gauge-card gauge-ok'><svg viewBox='0 0 160 160' class='gauge-svg'><circle cx='80' cy='80' r='60' fill='none' stroke='var(--rule2)' stroke-width='12' stroke-dasharray='376.991118430775' transform='rotate(135 80 80)'/><circle cx='80' cy='80' r='60' fill='none' stroke='#EF4444' stroke-width='12' stroke-linecap='round' stroke-dasharray='98.96 278.030949842697' transform='rotate(135 80 80)'/><text x='80' y='75' text-anchor='middle' class='gauge-val'>35</text><text x='80' y='98' text-anchor='middle' class='gauge-pct'>%</text></svg><div class='gauge-name'>需要处理</div></div>
+    </div>
+    <div style='flex:1;min-width:260px;'>
+      <h3 style='margin:0 0 12px;font-size:1.1rem;'>系统健康分</h3>
+      <div class="cards cards-3">
+        <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>正常</div><div class='card-value' style='color:var(--success);'>3</div></div>
+        <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>警告</div><div class='card-value' style='color:var(--warn);'>5</div></div>
+        <div class='card'><div class='card-label'><span class="icon icon-12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>危险</div><div class='card-value' style='color:var(--danger);'>4</div></div>
+      </div>
+      <p style='margin-top:14px;color:var(--ink2);font-size:0.88rem;'>本次巡检完成时间: 2026-08-18 10:55:42</p>
+      <p style='margin:6px 0 0;color:var(--muted);font-size:0.82rem;'>共检查 12 个分类模块: 系统 · 硬件 · CPU · 内存 · 磁盘 · 网络 · 进程 · 服务 · 安全 · 事件 · 任务 · 启动项</p>
+    </div>
+  </div>
+</div>
+<button class="theme-btn" id="themeBtn" onclick="toggleTheme()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const cur = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', cur === 'dark' ? 'default' : 'dark');
+  const btn = document.getElementById('themeBtn');
+  btn.innerHTML = cur === 'dark' ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+}
+window.addEventListener('load', () => {
+  document.querySelectorAll('.proc-bar-fill, .kpi-bar-fill, .hbar-fill, .vbar-bar').forEach(el => {
+    const w = el.style.width || (el.style.height + '');
+    if (el.style.width) {
+      el.style.width = '0';
+      setTimeout(() => { el.style.width = w; }, 100);
+    }
+  });
+});
+
+// Scroll spy for nav highlighting
+const navLinks = document.querySelectorAll('.nav li a');
+const sectionIds = Array.from(navLinks).map(a => a.getAttribute('href').substring(1));
+const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+if (sections.length > 0) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+}
+</script>
+</div>
+</div>
+</body></html>
